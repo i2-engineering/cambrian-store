@@ -1,0 +1,12 @@
+**/node_modules
+**/.env
+**/.env.*
+**/.medusa
+**/.next
+**/.turbo
+**/dist
+**/out
+**/*.tsbuildinfo
+.git
+.local
+.pnpm-store
