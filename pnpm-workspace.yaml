@@ -1,3 +1,20 @@
 packages:
   - "apps/**"
   - "!apps/backend/.medusa/**"
+allowBuilds:
+  '@medusajs/telemetry': true
+  '@swc/core': true
+  esbuild: true
+  msgpackr-extract: true
+  protobufjs: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@types/react-dom@19.3.0'
+  - '@types/react@19.3.0'
+  - react-dom@19.3.0
+  - react@19.3.0
+  - scheduler@0.28.0
+autoInstallPeers: true
+overrides:
+  "@types/react": "19.3.0"
+  "@types/react-dom": "19.3.0"

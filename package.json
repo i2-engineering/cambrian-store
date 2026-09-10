@@ -1,7 +1,7 @@
 {
   "name": "cambiran-pickleball-store",
   "private": true,
-  "packageManager": "pnpm@10.11.1",
+  "packageManager": "pnpm@12.3.4",
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
@@ -15,16 +15,15 @@
     "backend:dev": "turbo dev --filter=@dtc/backend",
     "storefront:dev": "turbo dev --filter=@dtc/storefront",
     "db:migrate": "pnpm --filter @dtc/backend exec medusa db:migrate",
-    "storefront:configure": "pnpm --filter @dtc/backend exec medusa exec ./src/scripts/configure-storefront.ts"
-  },
-  "pnpm": {
-    "overrides": {
-      "@types/react": "19.0.5",
-      "@types/react-dom": "19.0.5"
-    }
+    "storefront:configure": "pnpm --filter @dtc/backend exec medusa exec ./src/scripts/configure-storefront.ts",
+    "railway:build:backend": "pnpm --filter @dtc/backend run build",
+    "railway:start:backend": "node scripts/start-medusa.mjs",
+    "railway:migrate": "cd apps/backend/.medusa/server && ../../node_modules/.bin/medusa db:migrate",
+    "railway:build:storefront": "pnpm --filter @dtc/storefront run build",
+    "railway:start:storefront": "pnpm --filter @dtc/storefront run start"
   },
   "devDependencies": {
-    "@medusajs/eslint-plugin": "2.19.0",
+    "@medusajs/eslint-plugin": "2.20.1",
     "eslint": "^9.39.4",
     "jiti": "^2.7.0",
     "prettier": "^3.2.5",
