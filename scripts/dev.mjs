@@ -12,8 +12,8 @@ let shuttingDown = false
 
 function runWorkspaceScript(workspace, script) {
   const child = spawn(
-    process.execPath,
-    [packageManager, "--filter", workspace, script],
+    packageManager,
+    ["--filter", workspace, script],
     { stdio: "inherit", env: process.env }
   )
 
