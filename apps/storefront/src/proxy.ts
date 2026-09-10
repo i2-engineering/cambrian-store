@@ -1,7 +1,8 @@
 import { HttpTypes } from "@medusajs/types"
+import { getMedusaBackendUrl } from "@lib/backend-url"
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+const BACKEND_URL = getMedusaBackendUrl()
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
@@ -12,12 +13,6 @@ const regionMapCache = {
 
 async function getRegionMap(cacheId: string) {
   const { regionMap, regionMapUpdated } = regionMapCache
-
-  if (!BACKEND_URL) {
-    throw new Error(
-      "Proxy.ts: Error fetching regions. Did you set up regions in your Medusa Admin and define a NEXT_PUBLIC_MEDUSA_BACKEND_URL environment variable."
-    )
-  }
 
   if (
     !regionMap.keys().next().value ||
