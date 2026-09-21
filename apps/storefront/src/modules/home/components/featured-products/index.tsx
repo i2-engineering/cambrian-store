@@ -9,15 +9,32 @@ export default async function FeaturedProducts({
 }: {
   region: HttpTypes.StoreRegion
 }) {
-  const {
-    response: { products },
-  } = await listProducts({
-    regionId: region.id,
-    queryParams: {
-      limit: 12,
-      fields: "*variants.calculated_price",
-    },
-  })
+  const featuredHandle = "asics-gel-renma-2-white-menthol"
+  const [featuredResult, catalogResult] = await Promise.all([
+    listProducts({
+      regionId: region.id,
+      queryParams: {
+        handle: featuredHandle,
+        limit: 1,
+        fields: "*variants.calculated_price",
+      },
+    }),
+    listProducts({
+      regionId: region.id,
+      queryParams: {
+        limit: 12,
+        fields: "*variants.calculated_price",
+      },
+    }),
+  ])
+
+  const featuredProduct = featuredResult.response.products[0]
+  const products = [
+    ...(featuredProduct ? [featuredProduct] : []),
+    ...catalogResult.response.products.filter(
+      (product) => product.handle !== featuredHandle
+    ),
+  ].slice(0, 12)
 
   if (!products.length) {
     return null

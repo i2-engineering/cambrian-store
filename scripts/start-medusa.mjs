@@ -5,6 +5,27 @@ import path from "node:path"
 
 process.chdir(fileURLToPath(new URL("../apps/backend/.medusa/server", import.meta.url)))
 
+const runMedusa = (args) =>
+  new Promise((resolve, reject) => {
+    const command = spawn("../../node_modules/.bin/medusa", args, {
+      stdio: "inherit",
+    })
+
+    command.on("error", reject)
+    command.on("exit", (code, signal) => {
+      if (code === 0) {
+        resolve()
+        return
+      }
+
+      reject(
+        new Error(
+          `medusa ${args.join(" ")} failed with ${signal ?? `exit code ${code}`}`
+        )
+      )
+    })
+  })
+
 if (process.env.MEDUSA_UPLOADS_PATH) {
   const uploadsPath = path.resolve(process.env.MEDUSA_UPLOADS_PATH)
   const publicPath = path.join(uploadsPath, "public")
@@ -18,6 +39,12 @@ if (process.env.MEDUSA_UPLOADS_PATH) {
     }
   }
 }
+
+await runMedusa(["exec", "./src/scripts/seed-asics-gel-renma-2.js"])
+await runMedusa([
+  "exec",
+  "./src/scripts/seed-asics-gel-renma-2-white-steel-grey.js",
+])
 
 const server = spawn("../../node_modules/.bin/medusa", ["start"], {
   stdio: "inherit",
