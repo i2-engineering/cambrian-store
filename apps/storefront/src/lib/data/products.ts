@@ -75,7 +75,7 @@ export const listProducts = async ({
         },
         headers,
         next,
-        cache: "force-cache",
+        cache: process.env.NODE_ENV === "development" ? "no-store" : "force-cache",
       }
     )
     .then(({ products, count }) => {
